@@ -1,5 +1,6 @@
 import React from "react";
-
+import gql from "graphql-tag";
+import { graphql } from "react-apollo";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -28,7 +29,7 @@ class SignOrLogin extends React.Component {
     })
   }
   render(){
-    const { classes,query,...rest } = this.props;
+    const { classes,...rest } = this.props;
     const { login } = this.state;
     return(
       <>
@@ -48,8 +49,14 @@ class SignOrLogin extends React.Component {
   }
 }
 
-SignOrLogin.propTypes = {
-
-}
-
-export default withStyles(style)(SignOrLogin);
+SignOrLogin.propTypes = {}
+const query = gql`
+  {
+    clients {
+      _id
+      name
+      mail
+    }
+  }
+`;
+export default withStyles(style)(graphql(query,{props:({data})=>({data})})(SignOrLogin));

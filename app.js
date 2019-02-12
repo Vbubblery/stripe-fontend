@@ -10,7 +10,7 @@ const routes = require('./routers');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
-const handler = routes.getRequestHandler(app);
+const handler = app.getRequestHandler();
 const PORT = process.env.PORT || 8080;
 
 app.prepare().then(() => {
@@ -33,12 +33,13 @@ app.prepare().then(() => {
       res.status(500).end();
     }
   });
+  server.get('/user/:id',(req,res)=>{
+    const actualPage = '/user';
+    const queryParams = { id: req.params.id };
+    app.render(req, res, actualPage, queryParams)
+  })
   server.get('*', (req, res) => handler(req, res));
-  server.use(handler);
-  https.createServer({
-    key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert')
-  }, server)
+  server.use(handler)
   .listen(PORT, (err) => {
     if (err) throw err;
     console.log(`> Ready on https://localhost:${PORT}`)

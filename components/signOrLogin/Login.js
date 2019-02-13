@@ -18,11 +18,15 @@ import CardFooter from "../../override_components/Card/CardFooter";
 import Button from "../../override_components/CustomButtons/Button";
 import CustomInput from "../../override_components/CustomInput/CustomInput";
 
+import {login} from "../../lib/userAPI";
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      email:"",
+      password:"",
     };
   }
   componentDidMount() {
@@ -38,6 +42,14 @@ class Login extends React.Component {
     setLoginState();
     e.preventDefault();
   }
+  handleSubmit = (e) =>{
+    const {email,password} = this.state;
+    login(email,password);
+    e.preventDefault();
+  }
+  handleChange = (event) =>{
+    this.setState({[event.target.id]:event.target.value});
+  }
   componentWillUnmount () {}
   render(){
     const { classes,...rest } = this.props;
@@ -47,7 +59,7 @@ class Login extends React.Component {
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={4}>
                 <Card className={classes[this.state.cardAnimaton]}>
-                  <form className={classes.form}>
+                  <form className={classes.form} onSubmit={this.handleSubmit}>
                     <CardHeader color="primary" className={classes.cardHeader}>
                       <Typography variant="h6" style={{color:"white"}}>
                         Login
@@ -62,6 +74,7 @@ class Login extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange:this.handleChange,
                           type: "email",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -72,11 +85,12 @@ class Login extends React.Component {
                       />
                       <CustomInput
                         labelText="Password"
-                        id="pass"
+                        id="password"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
+                          onChange:this.handleChange,
                           type: "password",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -89,7 +103,7 @@ class Login extends React.Component {
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg">
+                      <Button simple type="submit" color="primary" size="lg">
                         Get started
                       </Button>
                       <Typography>

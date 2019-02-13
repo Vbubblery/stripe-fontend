@@ -8,7 +8,6 @@ import {Email,People} from "@material-ui/icons";
 
 // style
 import style from "./style"
-
 // override components
 import GridContainer from "../../override_components/Grid/GridContainer";
 import GridItem from "../../override_components/Grid/GridItem";

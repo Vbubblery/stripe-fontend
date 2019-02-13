@@ -6,7 +6,7 @@ import JssProvider from 'react-jss/lib/JssProvider';
 import getPageContext from '../lib/getPageContext';
 import Router from 'next/router';
 
-import withData from "../lib/apollo";
+// import withData from "../lib/apollo";
 
 class MyApp extends App {
   constructor(props) {
@@ -54,4 +54,5 @@ class MyApp extends App {
     );
   }
 }
-export default withData(MyApp);
+// export default withData(MyApp);
+export default MyApp;

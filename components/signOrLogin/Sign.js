@@ -1,4 +1,5 @@
 import React from "react";
+import Router from 'next/router'
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import {InputAdornment,Icon,Typography,Link} from "@material-ui/core";
@@ -15,6 +16,7 @@ import CustomInput from "../../override_components/CustomInput/CustomInput";
 
 import {Email,People} from "@material-ui/icons";
 
+import {addUser} from "../../lib/userAPI";
 // style
 import style from "./style"
 
@@ -22,7 +24,10 @@ class Sign extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      username:"",
+      password:"",
+      email:"",
     };
   }
   componentDidMount() {
@@ -33,12 +38,23 @@ class Sign extends React.Component {
       100
     );
   }
+  signSubmit = (username,mail,password) =>{
+    addUser(username,mail,password).then(()=>{Router.push('/users')})
+  }
+  handleSubmit = (e) =>{
+    const {username,password,email} = this.state;
+    this.signSubmit(username,email,password);
+    e.preventDefault();
+  }
+  handleChange = (event) =>{
+    this.setState({[event.target.id]:event.target.value});
+  }
   componentWillUnmount () {}
   render(){
     const { classes, ...rest } = this.props;
     return(
       <>
-        <div className={classes.container}>
+        <div className={classes.container} onSubmit={this.handleSubmit} >
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={4}>
               <Card className={classes[this.state.cardAnimaton]}>
@@ -46,11 +62,12 @@ class Sign extends React.Component {
                   <CardBody>
                     <CustomInput
                       labelText="First Name..."
-                      id="first"
+                      id="username"
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
+                        onChange:this.handleChange,
                         type: "text",
                         endAdornment: (
                           <InputAdornment position="end">
@@ -66,6 +83,7 @@ class Sign extends React.Component {
                         fullWidth: true
                       }}
                       inputProps={{
+                        onChange:this.handleChange,
                         type: "email",
                         endAdornment: (
                           <InputAdornment position="end">
@@ -76,11 +94,12 @@ class Sign extends React.Component {
                     />
                     <CustomInput
                       labelText="Password"
-                      id="pass"
+                      id="password"
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
+                        onChange:this.handleChange,
                         type: "password",
                         endAdornment: (
                           <InputAdornment position="end">
@@ -93,7 +112,7 @@ class Sign extends React.Component {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
+                    <Button simple type="submit" color="primary" size="lg">
                       Create
                     </Button>
                   </CardFooter>

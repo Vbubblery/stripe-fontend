@@ -5,8 +5,6 @@ const express = require('express');
 var fs = require('fs');
 const https = require('https');
 const cors = require('cors')
-const routes = require('./routers');
-
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -39,7 +37,11 @@ app.prepare().then(() => {
     app.render(req, res, actualPage, queryParams)
   })
   server.get('*', (req, res) => handler(req, res));
-  server.use(handler)
+  server.use(handler);
+  https.createServer({
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+}, server)
   .listen(PORT, (err) => {
     if (err) throw err;
     console.log(`> Ready on https://localhost:${PORT}`)

@@ -8,29 +8,28 @@ import {List,ListItem,ListItemText,Divider} from '@material-ui/core';
 // style
 import style from "./style";
 
+import {getUsers} from "../../lib/userAPI";
+
 class Users extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      data:null
+    }
   }
   componentDidMount() {
+    getUsers().then(i=>{
+      this.setState({data:i})
+    })
   }
   componentWillUnmount () {}
   render(){
-    const { classes,data,...rest } = this.props;
-    // const clients = data.clients.map(client=>{
-    //   return (
-    //     <ListItem key={client._id}>
-    //       <ListItemText primary={client.name}/>
-    //     </ListItem>
-    //   )
-    // })
-    console.log(data)
-    var test = null
-    if(!data.loading) test = data.clients.map(i=>(<p key={i['_id']}>{i['_id']}</p>))
+    const { classes,...rest } = this.props;
+    console.log(this.state)
     return(
       <>
         <List className={classes.root}>
-          {data.loading?(null):(data.clients.map(client=>(<ListItem key={client._id}><ListItemText primary={client.name} secondary={client.mail}/></ListItem>)))}
+          {!this.state.data?(null):(this.state.data.map(user=>(<ListItem key={user._id}><ListItemText primary={user.username} secondary={user.email}/></ListItem>)))}
         </List>
       </>
     )
@@ -38,13 +37,14 @@ class Users extends React.Component {
 }
 
 Users.propTypes = {}
-const query = gql`
-  {
-    clients {
-      _id
-      name
-      mail
-    }
-  }
-`;
-export default compose(withStyles(style),graphql(query,{props:({data})=>({data})}))(Users)
+// const query = gql`
+//   {
+//     clients {
+//       _id
+//       name
+//       mail
+//     }
+//   }
+// `;
+// export default compose(withStyles(style),graphql(query,{props:({data})=>({data})}))(Users)
+export default compose(withStyles(style))(Users)

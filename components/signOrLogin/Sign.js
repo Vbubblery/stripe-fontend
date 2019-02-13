@@ -39,7 +39,7 @@ class Sign extends React.Component {
     );
   }
   signSubmit = (username,mail,password) =>{
-    addUser(username,mail,password).then(()=>{Router.push('/users')})
+    addUser(username,mail,password).then(()=>{this.props.setLoginState()})
   }
   handleSubmit = (e) =>{
     const {username,password,email} = this.state;

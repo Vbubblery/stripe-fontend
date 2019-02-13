@@ -41,7 +41,7 @@ class SignOrLogin extends React.Component {
           }}
         >
           {login?
-            (<Login setLoginState={this.setLoginState}/>):(<Sign />)
+            (<Login setLoginState={this.setLoginState}/>):(<Sign setLoginState={this.setLoginState}/>)
           }
         </div>
       </>
@@ -50,13 +50,4 @@ class SignOrLogin extends React.Component {
 }
 
 SignOrLogin.propTypes = {}
-const query = gql`
-  {
-    clients {
-      _id
-      name
-      mail
-    }
-  }
-`;
-export default withStyles(style)(graphql(query,{props:({data})=>({data})})(SignOrLogin));
+export default withStyles(style)(SignOrLogin);

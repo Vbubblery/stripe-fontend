@@ -39,10 +39,6 @@ app.prepare().then(() => {
   })
   server.get('*', (req, res) => handler(req, res));
   server.use(handler);
-  https.createServer({
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.cert')
-}, server)
   .listen(PORT, (err) => {
     if (err) throw err;
     console.log(`> Ready on https://localhost:${PORT}`)

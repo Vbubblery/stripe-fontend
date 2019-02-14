@@ -8,7 +8,7 @@ import style from "./style"
 // components
 const QRCode = require('qrcode.react');
 
-import {getIdInCookies,getUserById} from "../../lib/userAPI";
+import {getIdInCookies} from "../../lib/userAPI";
 
 // stripe
 import {Elements, StripeProvider} from 'react-stripe-elements';
@@ -24,11 +24,9 @@ class Qrcode extends React.Component {
   }
   componentDidMount() {
     this.setState({
-      stripe: window.Stripe("pk_test_wSAh8VTVT4rAkV3ZMhi3Tu9a")
+      stripe: window.Stripe("pk_test_wSAh8VTVT4rAkV3ZMhi3Tu9a"),
+      data:getIdInCookies()
     });
-    getUserById(getIdInCookies()).then(i=>{
-      this.setState({data:JSON.stringify(i)})
-    })
   }
   componentWillUnmount () {
   }

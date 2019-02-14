@@ -38,7 +38,7 @@ app.prepare().then(() => {
     app.render(req, res, actualPage, queryParams)
   })
   server.get('*', (req, res) => handler(req, res));
-  server.use(handler);
+  server.use(handler)
   .listen(PORT, (err) => {
     if (err) throw err;
     console.log(`> Ready on https://localhost:${PORT}`)

@@ -14,16 +14,17 @@ const PORT = process.env.PORT || 8080;
 app.prepare().then(() => {
   const server = express();
   const stripe = require("stripe")("sk_test_eEvb0f1Ej9ixCvvMkTXobL7r");
-  server.use(require("body-parser").text());
+  server.use(require("body-parser").json());
   server.use(cors());
 
   server.post("/stripe/charge", async (req, res) => {
+    // console.log(req.body);
     try {
       let {status} = await stripe.charges.create({
         amount: 2000,
         currency: "usd",
         description: "An example charge",
-        source: req.body
+        source: req.body.id
       });
       res.json({status});
     } catch (err) {

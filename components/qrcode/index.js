@@ -36,7 +36,16 @@ class Qrcode extends React.Component {
     const { classes, ...rest } = this.props;
     return(
       <>
-        <QRCode value={this.state.data} size={512} />
+        <QRCode value={this.state.data} size={256}/>
+
+      <StripeProvider stripe={this.state.stripe}>
+        <div>
+          <h1>React Stripe Elements</h1>
+          <Elements>
+            <CheckoutForm />
+          </Elements>
+        </div>
+      </StripeProvider>
       </>
     )
   }

@@ -16,8 +16,7 @@ module.exports = withImages(
     {
       test: /\.scss$/,
       loader: 'babel-loader!raw-loader!sass-loader'
-    },
-    );
+    });
     return config;
   },
   webpackDevMiddleware: config => {

@@ -16,11 +16,10 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
   }
-
   render(){
     return(
       <>
-        <Mutation mutation={LOGIN} onCompleted={({login})=>{
+        <Mutation mutation={LOGIN} onCompleted={async({login})=>{
           if(!login){return null}
           Cookies.set("token", login);
           Router.push("/profile");

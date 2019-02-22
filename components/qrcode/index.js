@@ -47,22 +47,12 @@ class Qrcode extends React.Component {
         <QRCode value={this.state.data} size={256}/>
 
         <StripeProvider stripe={this.state.stripe}>
-
-            <Query query={ME}>
-              {(data)=>{
-                if(data.loading) return (<p>loading..</p>)
-                return (
                   <div>
                     <h1>React Stripe Elements</h1>
-                    <h1>your credits: {data.data.me.credit} </h1>
                     <Elements>
-                      <CheckoutForm email={data.data.me.email}/>
+                      <CheckoutForm email={this.state.data}/>
                     </Elements>
                   </div>
-                )
-              }}
-            </Query>
-
         </StripeProvider>
       </>
     )

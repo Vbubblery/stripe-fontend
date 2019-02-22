@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "js-cookie";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -8,7 +9,16 @@ import style from "./style"
 // components
 const QRCode = require('qrcode.react');
 
-import {getIdInCookies} from "../../lib/userAPI";
+import { Query,Mutation } from 'react-apollo';
+import gql from "graphql-tag";
+export const ME = gql`
+  query {
+    me{
+      email
+      credit
+    }
+  }
+`;
 
 // stripe
 import {Elements, StripeProvider} from 'react-stripe-elements';
@@ -25,7 +35,7 @@ class Qrcode extends React.Component {
   componentDidMount() {
     this.setState({
       stripe: window.Stripe("pk_test_wSAh8VTVT4rAkV3ZMhi3Tu9a"),
-      data:getIdInCookies()
+      data:Cookies.get("token")
     });
   }
   componentWillUnmount () {
@@ -36,14 +46,24 @@ class Qrcode extends React.Component {
       <>
         <QRCode value={this.state.data} size={256}/>
 
-      <StripeProvider stripe={this.state.stripe}>
-        <div>
-          <h1>React Stripe Elements</h1>
-          <Elements>
-            <CheckoutForm />
-          </Elements>
-        </div>
-      </StripeProvider>
+        <StripeProvider stripe={this.state.stripe}>
+
+            <Query query={ME}>
+              {(data)=>{
+                if(data.loading) return (<p>loading..</p>)
+                return (
+                  <div>
+                    <h1>React Stripe Elements</h1>
+                    <h1>your credits: {data.data.me.credit} </h1>
+                    <Elements>
+                      <CheckoutForm email={data.data.me.email}/>
+                    </Elements>
+                  </div>
+                )
+              }}
+            </Query>
+
+        </StripeProvider>
       </>
     )
   }

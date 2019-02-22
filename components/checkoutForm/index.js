@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {CardElement,IbanElement, injectStripe} from 'react-stripe-elements';
-import {getIdInCookies} from "../../lib/userAPI";
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
@@ -10,7 +9,7 @@ class CheckoutForm extends Component {
   }
 
   async submit(ev) {
-    const {token} = await this.props.stripe.createToken({name: getIdInCookies()});
+    const {token} = await this.props.stripe.createToken({name: this.props.email});
     let response = await axios({
       method: "POST",
       headers: {"content-type": "application/json;charset=UTF-8"},
@@ -28,7 +27,6 @@ class CheckoutForm extends Component {
       <div className="checkout">
         <p>Would you like to complete the purchase?</p>
         <CardElement />
-        <IbanElement supportedCountries={['SEPA']} />
         <button onClick={this.submit}>Send</button>
       </div>
     );

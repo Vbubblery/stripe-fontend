@@ -59,7 +59,5 @@ class Qrcode extends React.Component {
   }
 }
 
-Qrcode.propTypes = {
-}
 
-export default withStyles(style)(Qrcode);
+export default Qrcode;

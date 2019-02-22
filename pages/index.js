@@ -1,31 +1,20 @@
 import React from 'react'
-import gql from "graphql-tag";
 // Layout
 import Layout from '../components/Layout';
 
 // components
-// import SignOrLogin from '../components/signOrLogin';
+import SignOrLogin from '../components/signOrLogin';
 
-import {client} from '../lib/apollo';
-// <SignOrLogin />
+// import { Query } from 'react-apollo';
+// <Query query={GET_USERS} variables={{}} context={{"headers":{"authorization": "emhvdWp1bmNoZW5nMDExNkBnbWFpbC5jb20="}}}>
+//   {(data)=>{console.log(data);return <p>123</p>}}
+// </Query>
+
 
 const Index = (props) => (
   <Layout>
-    123
+    <SignOrLogin />
   </Layout>
 )
-
-client
-  .query({
-    query: gql`
-      query GetLaunch {
-        users{
-          id
-          email
-        }
-      }
-    `
-  })
-  .then(result => console.log(result));
 
 export default Index;

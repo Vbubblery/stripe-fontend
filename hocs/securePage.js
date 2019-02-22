@@ -6,7 +6,7 @@ import defaultPage from "./defaultPage";
 const securePageHoc = Page =>
   class SecurePage extends React.Component {
     static propTypes = {
-      // isAuthenticated: PropTypes.bool.isRequired
+      isAuthenticated: PropTypes.bool.isRequired
     };
 
     static getInitialProps(ctx) {

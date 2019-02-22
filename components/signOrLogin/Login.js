@@ -22,7 +22,9 @@ class Login extends React.Component {
         <Mutation mutation={LOGIN} onCompleted={async({login})=>{
           if(!login){return null}
           Cookies.set("token", login);
-          Router.push("/profile");
+          if (Cookies.get("token")) {
+            // Router.push("/profile");
+          }
         }} >
           {(login,{loading,error}) => {
             return (<LoginForm setLoginState={this.props.setLoginState} login={login}/>)

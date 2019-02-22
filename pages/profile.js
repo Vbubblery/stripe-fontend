@@ -4,6 +4,7 @@ import React from 'react'
 import Layout from '../components/Layout';
 
 import dynamic from 'next/dynamic'
+import securePage from "../hocs/securePage";
 
 // components
 // const Qrcode = dynamic(() => import('../components/qrcode'),{ssr: false})
@@ -15,4 +16,4 @@ const profile = (props) => (
 )
 
 
-export default profile;
+export default securePage(profile);

@@ -1,16 +1,18 @@
 import React from "react";
 import Router from "next/router";
 
-import Cookies from "js-cookie";
-
 
 export default Page =>
   class DefaultPage extends React.Component {
     static async getInitialProps({ req }) {
-      const loggedUser = Cookies.get("token")
+      const cookie = req.headers.cookie.split(";")
+      .find(c => c.trim().startsWith("token="));
+      let user = ""
+      if (!!cookie) {
+        user = cookie.split("=")[1]
+      }
+      const loggedUser = user
       const pageProps = Page.getInitialProps && Page.getInitialProps(req);
-      console.log("is authenticated");
-      console.log(loggedUser);
       let path = req ? req.pathname : "";
       path = "";
       return {
